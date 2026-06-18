@@ -1,18 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
 #include "ListaDinEncad.h"
 #include "Chamados.h"
 
 int main(void) {
-    Lista l = NULL;
+    Lista *l = cria_lista();
     int opcao;
     Chamado dados;
-    int numero;
+    int numero = 0;
     char tec[80];
     char status[30];
+    char confirmar;
 
-    carregarArquivo(&l);
-    do {system("cls");
+    carregarArquivo(l);
+
+    do {
+
         printf("||###################################||\n");
         printf("||                                   ||\n");
         printf("||-*-*-* Gestor de Chamados -*-*-*-*-||\n");
@@ -36,34 +41,98 @@ int main(void) {
 
         switch (opcao) {
             case 1:
-                abrirChamado(&l, dados);
+
+                printf("||###################################||\n");
+
+                inputDados(&dados);
+                abrirChamado(l, dados);
+
                 break;
             case 2:
-                listarChamados(&l);
+
+                printf("||###################################||\n");
+                listarChamados(l);
+
                 break;
             case 3:
-                printf("Not complete\n");
-                //buscarPorNumero(&l);
+                system("clear");
+                printf("||###################################||\n");
+
+                printf("Insira o numero do chamado\n");
+                scanf("%d", &numero);
+                clearInputBuffer();
+                buscarPorNumero(l, numero);
+
                 break;
             case 4:
-                printf("Not complete\n");
-                //assumirChamado(&l, tec);
+                system("clear");
+                printf("||###################################||\n");
+                printf("Insira o nome do tecnico: ");
+                fgets(tec, 80, stdin);
+                removeEnter(tec);
+                assumirChamado(l, tec);
+
                 break;
             case 5:
-                printf("Not complete\n");
-                //resolverChamado(&l, numero);
+
+                printf("||###################################||\n");
+                printf("Insira o numero do chamado a ser finalizado: ");
+                scanf("%d", &numero);
+                resolverChamado(l, numero);
+
                 break;
             case 6:
-                printf("Not complete\n");
-                //listarPorStatus(&l, status);
+
+                printf("||###################################||\n");
+                int statusSlct = 0;
+                printf("Selecione: \n1 - Aberto\n2 - Em andamento\n3 - Resolvido\n->\n");
+                scanf("%d", &statusSlct);
+                switch (statusSlct) {
+                    case 1:
+                        strcpy(status, "Aberto");
+                        listarPorStatus(l, status);
+                        break;
+                    case 2:
+                        strcpy(status, "Em andamento");
+                        listarPorStatus(l, status);
+                        break;
+                    case 3:
+                        strcpy(status, "Resolvido");
+                        listarPorStatus(l, status);
+                        break;
+                    default:
+                        printf("Opcao invalida\n");
+                        break;
+                }
+
                 break;
             case 7:
-                printf("Not complete\n");
-                //removerChamado();
+
+                printf("||###################################||\n");
+                printf("Insira o numero do chamado: \n");
+                scanf("%d", &numero);
+                clearInputBuffer();
+
+                buscarPorNumero(l, numero);
+                do {
+                    printf("Deseja realmente remover o chamado? (s/n) ");
+                    scanf("%c", &confirmar);
+                    clearInputBuffer();
+                }while (confirmar != 's' && confirmar != 'n' && confirmar != 'S' && confirmar != 'N');
+
+                if (confirmar == 's' || confirmar == 'S') {
+                    removerChamado(l, numero);
+                    printf("Chamado removido com sucesso\n");
+                    break;
+                }else if (confirmar == 'n' || confirmar == 'N') {
+                    printf("Operacao cancelada\n");
+                    break;
+                }
+
                 break;
             case 0:
-                printf("Not complete\n");
-                //salvarEmArquivo();
+                printf("Saindo e salvando...\n");
+                salvarEmArquivo(l);
                 break;
             default:
                 break;
@@ -71,5 +140,3 @@ int main(void) {
     }while (opcao != 0);
     return 0;
 }
-
-

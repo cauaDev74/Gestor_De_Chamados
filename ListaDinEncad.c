@@ -56,6 +56,21 @@ int consulta_lista_num(Lista* lista, int num, Chamado* ch) {
     return 1;
 }
 
+Chamado *consulta_lista_num_end(Lista *lista, int num) {
+    if (lista == NULL)
+        return NULL;
+
+    Elemento* atual = *lista;
+    while (atual != NULL && atual->dados.numero != num) {
+        atual = atual->prox;
+    }
+
+    if (atual == NULL)
+        return NULL;
+
+    return &atual->dados;
+}
+
 int insere_lista_inicio(Lista* lista, Chamado novo_aluno) {
     if (lista == NULL)
         return 0;

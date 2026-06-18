@@ -22,4 +22,6 @@ void imprime_lista(Lista* li);
 int consulta_lista_num(Lista* li, int num, Chamado* ch);
 int consulta_lista_pos(Lista* li, int pos, Chamado* al);
 
+Chamado *consulta_lista_num_end(Lista *lista, int num);
+
 #endif

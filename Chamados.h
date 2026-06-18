@@ -8,6 +8,7 @@
 #include "Structs.h"
 
 void clearInputBuffer();
+void removeEnter(char* c);
 void chamadoInfo(Chamado dados);
 void inputDados(Chamado *dados);
 
